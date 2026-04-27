@@ -19,7 +19,7 @@ type AuthContextValue = {
   isAuthenticated: boolean;
   isBootstrapping: boolean;
   setAccessToken: (token: string | null) => void;
-  refresh: (isInitial?: boolean) => Promise<boolean>;
+  refresh: (isInitial?: boolean) => Promise<string | null>;
   logout: () => Promise<void>;
 };
 
@@ -33,10 +33,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const result = await refreshAccessToken();
       setAccessToken(result.accessToken);
-      return true;
+      return result.accessToken;
     } catch {
       setAccessToken(null);
-      return false;
+      return null;
     } finally {
       if (isInitial) {
         setIsBootstrapping(false);

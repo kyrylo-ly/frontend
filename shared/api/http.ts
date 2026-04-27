@@ -12,9 +12,14 @@ export class ApiError extends Error {
   }
 }
 
-type FetchOptions = Omit<RequestInit, "body"> & {
+export type FetchOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
 };
+
+export type AuthorizedRequest = <T>(
+  path: string,
+  options?: FetchOptions,
+) => Promise<T>;
 
 export async function apiFetch<T>(
   path: string,
